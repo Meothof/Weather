@@ -15,8 +15,29 @@
   </ion-header>
 
   <div id="container">
-    <strong class="capitalize">{{ place?.name }}</strong>
-    <strong class="capitalize">{{ place?.coordinates?.latitude }}</strong>
-    <strong class="capitalize">{{ place?.coordinates?.longitude }}</strong>
+    <ion-refresher
+      slot="fixed"
+      (ionRefresh)="refresh($event)"
+    >
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>
+    <ng-container *ngIf="weather; else loading">
+      <ion-card *ngFor="let currentWeather of weather.current?.weather">
+        <img [src]="'http://openweathermap.org/img/wn/'+currentWeather.icon+'@2x.png'" />
+        <ion-card-header>
+          <ion-card-subtitle>Today</ion-card-subtitle>
+          <ion-card-title>{{currentWeather.main}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          {{currentWeather.description}}
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+    <ng-template #loading>
+      <ion-spinner name="dots"></ion-spinner>
+    </ng-template>
+
   </div>
 </ion-content>

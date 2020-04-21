@@ -3,8 +3,8 @@ import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { IPlace } from 'src/app/interfaces/place';
-import { NominatimService } from 'src/app/services/nominatim.service';
 import { WeatherService } from '../../services/weather.service';
+import { IonRefresher } from '@ionic/angular';
 
 @Component({
   selector: 'app-place-weather-overview',
@@ -21,7 +21,6 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private weatherService: WeatherService,
-    private nominatimeSerivce: NominatimService,
   ) {
     this.destroyed = new Subject();
   }
@@ -40,8 +39,13 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  private refresh() {
+  public async refresh(event?) {
     this.place = history.state;
+    this.weather = await this.weatherService.fetchWeather(this.place.coordinates);
+    console.log(this.weather)
+    if (event) {
+      event.target.complete();
+    }
   }
 
 }
