@@ -3,15 +3,18 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'place/:id',
-    loadChildren: () => import('./place/place.module').then( m => m.PlaceModule)
+    path: 'place',
+    loadChildren: () => import('./place/place.module').then(m => m.PlaceModule)
   }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload',
+      preloadingStrategy: PreloadAllModules
+    }),
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -10,33 +10,17 @@
 
           <ion-menu-toggle
             auto-hide="false"
-            *ngFor="let p of appPages; let i = index"
+            *ngFor="let place of places"
           >
             <ion-item
-              (click)="viewPlaceWeather(p, i)"
+              (click)="selectPlace(place)"
               lines="none"
               detail="false"
-              [class.selected]="selectedIndex == i"
+              [class.selected]="selectedPlace?.name == place.name"
             >
-              <ion-label>{{ p.title }}</ion-label>
+              <ion-label>{{ place.name }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item
-            *ngFor="let label of labels"
-            lines="none"
-          >
-            <ion-icon
-              slot="start"
-              ios="bookmark-outline"
-              md="bookmark-sharp"
-            ></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

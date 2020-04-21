@@ -3,6 +3,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { IPlace } from './interfaces/place';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,24 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public selectedIndex = 0;
-  public appPages = [
+
+  public places: IPlace[] = [
     {
-      title: 'Montreal',
-      url: '/place/Montreal',
-      latitude: '45.508888',
-      longitude: '-73.561668',
+      name: 'Montreal',
+      coordinates: {
+        latitude: '45.508888',
+        longitude: '-73.561668',
+      }
+    },
+    {
+      name: 'Paris',
+      coordinates: {
+        latitude: '48.866667',
+        longitude: '2.333333',
+      }
     },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public selectedPlace: IPlace;
 
   constructor(
     private platform: Platform,
@@ -30,31 +39,22 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
 
-  initializeApp() {
+  public initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
-  ngOnInit() {
-    const path = window.location.pathname.split('place/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
+  public ngOnInit() {
+    this.selectPlace(this.places[0]);
   }
 
-  viewPlaceWeather(place, index) {
-    console.log(place)
+  public selectPlace(place) {
+    this.selectedPlace = place;
     this.router.navigateByUrl(
-      `place/${place.title}`,
-      {
-        state:
-        {
-          latitude: place.latitude, longitude: place.longitude
-        }
-      }
+      'place',
+      { state: place }
     );
-    this.selectedIndex = index;
   }
 }

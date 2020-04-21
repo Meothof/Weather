@@ -3,21 +3,20 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ place }}</ion-title>
+    <ion-title>{{ place?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">{{ place }}</ion-title>
+      <ion-title size="large">{{ place?.name }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong class="capitalize">{{ place }}</strong>
-    <strong class="capitalize">{{ latitude }}</strong>
-    <strong class="capitalize">{{ longitude }}</strong>
-    <p>Explore</p>
+    <strong class="capitalize">{{ place?.name }}</strong>
+    <strong class="capitalize">{{ place?.coordinates?.latitude }}</strong>
+    <strong class="capitalize">{{ place?.coordinates?.longitude }}</strong>
   </div>
 </ion-content>

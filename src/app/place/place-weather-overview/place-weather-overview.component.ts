@@ -1,38 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WeatherService } from '../../services/weather.service';
-import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { IPlace } from 'src/app/interfaces/place';
 import { NominatimService } from 'src/app/services/nominatim.service';
+import { WeatherService } from '../../services/weather.service';
 
 @Component({
   selector: 'app-place-weather-overview',
   templateUrl: './place-weather-overview.component.html',
   styleUrls: ['./place-weather-overview.component.scss'],
 })
-export class PlaceWeatherOverviewComponent implements OnInit {
+export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
 
-  public place: string;
-  public latitude: string;
-  public longitude: string;
-
+  public place: IPlace;
   public weather: any;
 
+  private readonly destroyed: Subject<void>;
+
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private weatherService: WeatherService,
-    private location: Location,
     private nominatimeSerivce: NominatimService,
   ) {
+    this.destroyed = new Subject();
   }
 
-  async ngOnInit() {
-    this.place = this.activatedRoute.snapshot.paramMap.get('id');
-    const state = this.location.getState() as any;
-    // this.weather = await this.weatherService.fetchWeather(state.latitude, state.longitude);
-    // console.log(this.weather);
+  public ngOnInit() {
+    this.router.events.pipe(
+      filter((event: RouterEvent) => event instanceof NavigationEnd),
+      takeUntil(this.destroyed)
+    ).subscribe(() => {
+      this.refresh();
+    });
+  }
 
-    // Test
-    this.nominatimeSerivce.fetchLocation(this.place).then(console.log)
+  public ngOnDestroy(): void {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  private refresh() {
+    this.place = history.state;
   }
 
 }
