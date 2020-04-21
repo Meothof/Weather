@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { IPlace } from 'src/app/interfaces/place';
 import { WeatherService } from '../../services/weather.service';
-import { IonRefresher } from '@ionic/angular';
+import { IOneCallApiResponse } from 'src/app/interfaces/weather';
 
 @Component({
   selector: 'app-place-weather-overview',
@@ -14,7 +14,7 @@ import { IonRefresher } from '@ionic/angular';
 export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
 
   public place: IPlace;
-  public weather: any;
+  public weather: IOneCallApiResponse;
 
   private readonly destroyed: Subject<void>;
 

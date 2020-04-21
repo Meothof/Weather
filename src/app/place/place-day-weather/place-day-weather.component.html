@@ -1,0 +1,13 @@
+<ng-container *ngIf="weatherDetails">
+  <ion-card *ngIf="weatherDetails.weather[0]; let weatherOverview">
+    <img [src]="'http://openweathermap.org/img/wn/'+ weatherOverview.icon+'@2x.png'" />
+    <ion-card-header>
+      <ion-card-subtitle>{{weatherDetails.dt | secondsToMilliseconds | date}}</ion-card-subtitle>
+      <ion-card-title>{{weatherOverview.main}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{weatherOverview.description}}
+    </ion-card-content>
+  </ion-card>
+</ng-container>

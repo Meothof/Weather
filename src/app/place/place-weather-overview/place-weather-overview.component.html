@@ -13,31 +13,28 @@
       <ion-title size="large">{{ place?.name }}</ion-title>
     </ion-toolbar>
   </ion-header>
+  
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="refresh($event)"
+  >
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
 
-  <div id="container">
-    <ion-refresher
-      slot="fixed"
-      (ionRefresh)="refresh($event)"
-    >
-      <ion-refresher-content>
-      </ion-refresher-content>
-    </ion-refresher>
-    <ng-container *ngIf="weather; else loading">
-      <ion-card *ngFor="let currentWeather of weather.current?.weather">
-        <img [src]="'http://openweathermap.org/img/wn/'+currentWeather.icon+'@2x.png'" />
-        <ion-card-header>
-          <ion-card-subtitle>Today</ion-card-subtitle>
-          <ion-card-title>{{currentWeather.main}}</ion-card-title>
-        </ion-card-header>
+  <div
+    *ngIf="weather; else loading"
+    id="container"
+  >
+    <app-place-day-weather [weatherDetails]="weather.current"></app-place-day-weather>
 
-        <ion-card-content>
-          {{currentWeather.description}}
-        </ion-card-content>
-      </ion-card>
-    </ng-container>
-    <ng-template #loading>
-      <ion-spinner name="dots"></ion-spinner>
-    </ng-template>
+    <div *ngFor="let dailyWeather of weather.daily">
+      <app-place-day-weather [weatherDetails]="dailyWeather"></app-place-day-weather>
+    </div>
 
   </div>
 </ion-content>
+
+<ng-template #loading>
+  <ion-spinner name="dots"></ion-spinner>
+</ng-template>
