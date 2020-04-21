@@ -1,0 +1,16 @@
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between
+}
+
+.temperature {
+  font-size: 16px;
+  line-height: 22px;
+  color: #8c8c8c;
+  margin-left: 8px;
+}

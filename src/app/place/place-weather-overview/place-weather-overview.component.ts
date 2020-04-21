@@ -42,7 +42,6 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
   public async refresh(event?) {
     this.place = history.state;
     this.weather = await this.weatherService.fetchWeather(this.place.coordinates);
-    console.log(this.weather)
     if (event) {
       event.target.complete();
     }

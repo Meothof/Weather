@@ -1,13 +1,24 @@
 <ng-container *ngIf="weatherDetails">
   <ion-card *ngIf="weatherDetails.weather[0]; let weatherOverview">
-    <img [src]="'http://openweathermap.org/img/wn/'+ weatherOverview.icon+'@2x.png'" />
     <ion-card-header>
-      <ion-card-subtitle>{{weatherDetails.dt | secondsToMilliseconds | date}}</ion-card-subtitle>
-      <ion-card-title>{{weatherOverview.main}}</ion-card-title>
-    </ion-card-header>
+      <ion-card-subtitle>{{weatherDetails.dt | secondsToMilliseconds | date:'fullDate'}}</ion-card-subtitle>
+      <ion-card-title class="center space-between">
+        <span class="center">
+          <img [src]="'http://openweathermap.org/img/wn/'+ weatherOverview.icon+'.png'" />
+          <span>{{weatherOverview.description | titlecase}}</span>
+        </span>
 
-    <ion-card-content>
-      {{weatherOverview.description}}
-    </ion-card-content>
+        <ng-container *ngTemplateOutlet="isToday ? currentTemp: forecastTemp; context: {temp: weatherDetails.temp}"></ng-container>
+        <ng-template #currentTemp let-temp="temp">
+          <span class="temperature">{{temp | temperature:'k':'c'}}</span>
+        </ng-template>
+        <ng-template #forecastTemp let-temp="temp">
+          <span>
+            <span class="temperature">{{temp.max | temperature:'k':'c'}}</span>
+            <span class="temperature">{{temp.min | temperature:'k':'c'}}</span>
+          </span>
+        </ng-template>
+      </ion-card-title>
+    </ion-card-header>
   </ion-card>
 </ng-container>

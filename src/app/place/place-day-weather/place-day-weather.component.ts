@@ -10,6 +10,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 export class PlaceDayWeatherComponent implements OnInit {
 
   @Input() public weatherDetails: IWeatherDetails;
+  @Input() public isToday = false;
 
   constructor() { }
 
