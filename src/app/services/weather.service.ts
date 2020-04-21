@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { key } from '../key/openweathermap';
 import { ICoordinates } from '../interfaces/coordinates';
+import { IOneCallApiResponse } from '../interfaces/weather';
+import { key } from '../key/openweathermap';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,9 @@ export class WeatherService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public fetchWeather(coordinates: ICoordinates) {
+  public fetchWeather(coordinates: ICoordinates): Promise<IOneCallApiResponse> {
     const url = `${this.openWeatherEndpoint}/onecall`;
-    return this.httpClient.get(
+    return this.httpClient.get<IOneCallApiResponse>(
       url,
       {
         params: {
