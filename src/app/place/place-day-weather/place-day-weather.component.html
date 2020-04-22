@@ -13,9 +13,9 @@
           <span class="temperature">{{temp | temperature:'k':'c'}}</span>
         </ng-template>
         <ng-template #forecastTemp let-temp="temp">
-          <span>
-            <span class="temperature">{{temp.max | temperature:'k':'c'}}</span>
-            <span class="temperature">{{temp.min | temperature:'k':'c'}}</span>
+          <span class="temperature">
+            <span class="max">{{temp.max | temperature:'k':'c'}}</span>
+            <span class="min">{{temp.min | temperature:'k':'c'}}</span>
           </span>
         </ng-template>
       </ion-card-title>
