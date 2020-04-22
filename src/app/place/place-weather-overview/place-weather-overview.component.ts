@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { IPlace } from 'src/app/interfaces/place';
+import { IOneCallApiResponse, IWeatherForecast } from 'src/app/interfaces/weather';
 import { WeatherService } from '../../services/weather.service';
-import { IOneCallApiResponse } from 'src/app/interfaces/weather';
+import { PlaceWeatherDetailsComponent } from '../place-weather-details/place-weather-details.component';
 
 @Component({
   selector: 'app-place-weather-overview',
@@ -21,6 +23,7 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private weatherService: WeatherService,
+    private modalController: ModalController,
   ) {
     this.destroyed = new Subject();
   }
@@ -47,4 +50,13 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     }
   }
 
+  public async openForecastDetails(weather: IWeatherForecast) {
+    const modal = await this.modalController.create({
+      component: PlaceWeatherDetailsComponent,
+      componentProps: {
+        weatherForecast: weather
+      }
+    });
+    await modal.present();
+  }
 }

@@ -1,6 +1,5 @@
-import { IWeatherDetails, IWeatherOverview } from 'src/app/interfaces/weather';
-
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IWeatherDetails } from 'src/app/interfaces/weather';
 
 @Component({
   selector: 'app-place-day-weather',

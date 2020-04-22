@@ -6,11 +6,13 @@ import { PlaceRoutingModule } from './place-routing.module';
 import { RouterModule } from '@angular/router';
 import { PlaceDayWeatherComponent } from './place-day-weather/place-day-weather.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { PlaceWeatherDetailsComponent } from './place-weather-details/place-weather-details.component';
 
 @NgModule({
   declarations: [
     PlaceWeatherOverviewComponent,
     PlaceDayWeatherComponent,
+    PlaceWeatherDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -18,6 +20,9 @@ import { PipesModule } from '../pipes/pipes.module';
     PlaceRoutingModule,
     RouterModule,
     PipesModule
+  ],
+  entryComponents: [
+    PlaceWeatherDetailsComponent
   ]
 })
 export class PlaceModule { }

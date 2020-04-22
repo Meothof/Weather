@@ -13,7 +13,7 @@
       <ion-title size="large">{{ place?.name }}</ion-title>
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-refresher
     slot="fixed"
     (ionRefresh)="refresh($event)"
@@ -30,14 +30,22 @@
       <ion-list-header>
         Current weather
       </ion-list-header>
-      <app-place-day-weather [weatherDetails]="weather.current" [isToday]="true"></app-place-day-weather>
+      <div (click)="openForecastDetails(weather.daily[0])">
+        <app-place-day-weather
+          [weatherDetails]="weather.current"
+          [isToday]="true"
+        ></app-place-day-weather>
+      </div>
 
       <ion-list-header>
         Forecast
       </ion-list-header>
-      <ng-container *ngFor="let dailyWeather of weather.daily | slice:1">
+      <div
+        *ngFor="let dailyWeather of weather.daily | slice:1"
+        (click)="openForecastDetails(dailyWeather)"
+      >
         <app-place-day-weather [weatherDetails]="dailyWeather"></app-place-day-weather>
-      </ng-container>
+      </div>
     </ion-list>
 
   </div>
