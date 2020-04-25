@@ -13,15 +13,16 @@
             *ngFor="let place of places"
           >
             <ion-item
-              (click)="selectPlace(place)"
               lines="none"
               detail="false"
               [class.selected]="selectedPlace?.name == place.name"
+              (click)="selectPlace(place)"
             >
               <ion-label>{{ place.name }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+        <ion-button (click)="openSearch()">Add place</ion-button>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

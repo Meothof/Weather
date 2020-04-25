@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController, Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { IPlace } from './interfaces/place';
+import { SearchPlaceComponent } from './place/search-place/search-place.component';
 
 @Component({
   selector: 'app-root',
@@ -12,22 +14,7 @@ import { IPlace } from './interfaces/place';
 })
 export class AppComponent implements OnInit {
 
-  public places: IPlace[] = [
-    {
-      name: 'Montreal',
-      coordinates: {
-        latitude: '45.508888',
-        longitude: '-73.561668',
-      }
-    },
-    {
-      name: 'Paris',
-      coordinates: {
-        latitude: '48.866667',
-        longitude: '2.333333',
-      }
-    },
-  ];
+  public places: IPlace[];
   public selectedPlace: IPlace;
 
   constructor(
@@ -35,6 +22,8 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
+    private modalController: ModalController,
+    private storage: Storage,
   ) {
     this.initializeApp();
   }
@@ -46,15 +35,31 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public ngOnInit() {
-    this.selectPlace(this.places[0]);
+  public async ngOnInit() {
+    await this.refreshPlaces();
+    if (this.places.length !== 0) {
+      this.selectPlace(this.places[0]);
+    }
   }
 
   public selectPlace(place) {
     this.selectedPlace = place;
     this.router.navigateByUrl(
-      'place',
+      'place/weather-overview',
       { state: place }
     );
+  }
+
+  public async openSearch() {
+    const modal = await this.modalController.create({
+      component: SearchPlaceComponent
+    });
+    await modal.present();
+    await modal.onWillDismiss();
+    this.refreshPlaces();
+  }
+
+  private async refreshPlaces() {
+    this.places = (await this.storage.get('places') as IPlace[]) || [];
   }
 }
