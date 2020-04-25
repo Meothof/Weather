@@ -10,9 +10,9 @@ export class NominatimService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public fetchLocation(query: string) {
+  public fetchLocation(query: string): Promise<any[]> {
     const url = `${this.nominatimeEndpoint}/search`;
-    return this.httpClient.get(
+    return this.httpClient.get<any[]>(
       url,
       {
         params: {
