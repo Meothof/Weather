@@ -1,0 +1,19 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Search place</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      debounce="500"
+      (ionChange)="searchPlace($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-list>
+    <ion-item *ngFor="let place of searchResults" (click)="savePlace(place)">
+      {{place.display_name}}
+    </ion-item>
+
+  </ion-list>
+</ion-content>
