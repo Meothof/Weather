@@ -7,65 +7,167 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
-  <img [src]="'http://openweathermap.org/img/wn/'+ weatherForecast.weather[0].icon+'@2x.png'" />
+
+  <!-- Overview -->
+  <ion-card *ngIf="weatherForecast.weather[0]; let weatherOverview">
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{placeName}}
+      </ion-card-subtitle>
+      <ion-card-title class="center space-between">
+        <span class="center">
+          <img [src]="'http://openweathermap.org/img/wn/'+ weatherForecast.weather[0].icon+'@2x.png'" />
+          <span>{{weatherOverview.description | titlecase}}</span>
+        </span>
+        <span class="temperature">
+          <span class="max">{{weatherForecast.temp.max | temperature:'k':'c'}}</span>
+          <span class="min">{{weatherForecast.temp.min | temperature:'k':'c'}}</span>
+        </span>
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
   <!-- Temperature -->
-  <ion-grid>
-    <ion-row>
-      <ion-col></ion-col>
-      <ion-col>Temperature</ion-col>
-      <ion-col>Feel like</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Min</ion-col>
-      <ion-col>{{weatherForecast.temp.min | temperature:'k':'c'}}</ion-col>
-      <ion-col></ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Max</ion-col>
-      <ion-col>{{weatherForecast.temp.max | temperature:'k':'c'}}</ion-col>
-      <ion-col></ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Morning</ion-col>
-      <ion-col>{{weatherForecast.temp.morn | temperature:'k':'c'}}</ion-col>
-      <ion-col>{{weatherForecast.feels_like.morn | temperature:'k':'c'}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Day</ion-col>
-      <ion-col>{{weatherForecast.temp.day | temperature:'k':'c'}}</ion-col>
-      <ion-col>{{weatherForecast.feels_like.day | temperature:'k':'c'}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Eve</ion-col>
-      <ion-col>{{weatherForecast.temp.eve | temperature:'k':'c'}}</ion-col>
-      <ion-col>{{weatherForecast.feels_like.eve | temperature:'k':'c'}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Night</ion-col>
-      <ion-col>{{weatherForecast.temp.night | temperature:'k':'c'}}</ion-col>
-      <ion-col>{{weatherForecast.feels_like.night | temperature:'k':'c'}}</ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Temperatures
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col></ion-col>
+          <ion-col>Temperature</ion-col>
+          <ion-col>Feel like</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Morning</ion-col>
+          <ion-col>{{weatherForecast.temp.morn | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.morn | temperature:'k':'c'}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Day</ion-col>
+          <ion-col>{{weatherForecast.temp.day | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.day | temperature:'k':'c'}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Eve</ion-col>
+          <ion-col>{{weatherForecast.temp.eve | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.eve | temperature:'k':'c'}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Night</ion-col>
+          <ion-col>{{weatherForecast.temp.night | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.night | temperature:'k':'c'}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Sunrise & Sunset -->
-  <ion-grid>
-    <ion-row class="sun-time">
-      <ion-col><img src="assets/images/dawn.svg"/></ion-col>
-      <ion-col><img src="assets/images/sunset.svg"></ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>{{weatherForecast.sunrise | secondsToMilliseconds | date:'H:mm:ss'}}</ion-col>
-      <ion-col>{{weatherForecast.sunset | secondsToMilliseconds | date:'H:mm:ss'}}</ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Sun
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="sun-time">
+          <ion-col><img src="assets/images/dawn.svg" /></ion-col>
+          <ion-col>{{weatherForecast.sunrise | secondsToMilliseconds | date:'H:mm:ss'}}</ion-col>
+        </ion-row>
+        <ion-row class="sun-time">
+          <ion-col><img src="assets/images/sunset.svg"></ion-col>
+          <ion-col>{{weatherForecast.sunset | secondsToMilliseconds | date:'H:mm:ss'}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>UV index</ion-col>
+          <ion-col>{{weatherForecast.uvi}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Precipitations -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Precipitations
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngIf="weatherForecast.rain; let rain">
+          <ion-col>Rain</ion-col>
+          <ion-col>{{rain}}mm</ion-col>
+        </ion-row>
+        <ion-row *ngIf="weatherForecast.snow; let snow">
+          <ion-col>Snow</ion-col>
+          <ion-col>{{snow}}mm</ion-col>
+        </ion-row>
+      </ion-grid>
+      <span
+        class="center"
+        *ngIf="!weatherForecast.rain && !weatherForecast.snow"
+      >
+        None
+      </span>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Wind -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Wind
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngIf="weatherForecast.wind_speed; let windSpeed">
+          <ion-col>Wind speed</ion-col>
+          <ion-col>{{windSpeed}}m/s</ion-col>
+        </ion-row>
+        <ion-row *ngIf="weatherForecast.wind_gust; let windGust">
+          <ion-col>Wind gust</ion-col>
+          <ion-col>{{windGust}}m/s</ion-col>
+        </ion-row>
+        <ion-row *ngIf="weatherForecast.wind_deg; let windDeg">
+          <ion-col>Wind direction</ion-col>
+          <ion-col>{{windDeg | degreeToCardinal}} ({{windDeg}}°)</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Other -->
-  <ion-grid>
-    <ion-row>
-      <ion-col>Rain</ion-col>
-      <ion-col>{{weatherForecast.rain}}mm</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>Snow</ion-col>
-      <ion-col>{{weatherForecast.snow}}mm</ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Other details
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>Cloudiness</ion-col>
+          <ion-col>{{weatherForecast.clouds}}%</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Humidity</ion-col>
+          <ion-col>{{weatherForecast.humidity}}%</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Pressure</ion-col>
+          <ion-col>{{weatherForecast.pressure}}hPa</ion-col>
+        </ion-row>
+        <ion-row *ngIf="weatherForecast.visibility; let visibility">
+          <ion-col>Visibility</ion-col>
+          <ion-col>{{visibility}}m</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

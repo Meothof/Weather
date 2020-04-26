@@ -54,7 +54,8 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: PlaceWeatherDetailsComponent,
       componentProps: {
-        weatherForecast: weather
+        weatherForecast: weather,
+        placeName: this.place.name,
       }
     });
     await modal.present();

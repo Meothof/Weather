@@ -10,6 +10,7 @@ import { ModalController } from '@ionic/angular';
 export class PlaceWeatherDetailsComponent implements OnInit {
 
   @Input() public weatherForecast: IWeatherForecast;
+  @Input() public placeName: string;
 
   constructor(private modalController: ModalController) { }
 
