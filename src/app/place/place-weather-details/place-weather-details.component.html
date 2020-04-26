@@ -20,8 +20,8 @@
           <span>{{weatherOverview.description | titlecase}}</span>
         </span>
         <span class="temperature">
-          <span class="max">{{weatherForecast.temp.max | temperature:'k':'c'}}</span>
-          <span class="min">{{weatherForecast.temp.min | temperature:'k':'c'}}</span>
+          <span class="max">{{weatherForecast.temp.max | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
+          <span class="min">{{weatherForecast.temp.min | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
         </span>
       </ion-card-title>
     </ion-card-header>
@@ -43,23 +43,23 @@
         </ion-row>
         <ion-row>
           <ion-col>Morning</ion-col>
-          <ion-col>{{weatherForecast.temp.morn | temperature:'k':'c'}}</ion-col>
-          <ion-col>{{weatherForecast.feels_like.morn | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.temp.morn | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.morn | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Day</ion-col>
-          <ion-col>{{weatherForecast.temp.day | temperature:'k':'c'}}</ion-col>
-          <ion-col>{{weatherForecast.feels_like.day | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.temp.day | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.day | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Eve</ion-col>
-          <ion-col>{{weatherForecast.temp.eve | temperature:'k':'c'}}</ion-col>
-          <ion-col>{{weatherForecast.feels_like.eve | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.temp.eve | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.eve | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col>Night</ion-col>
-          <ion-col>{{weatherForecast.temp.night | temperature:'k':'c'}}</ion-col>
-          <ion-col>{{weatherForecast.feels_like.night | temperature:'k':'c'}}</ion-col>
+          <ion-col>{{weatherForecast.temp.night | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
+          <ion-col>{{weatherForecast.feels_like.night | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>

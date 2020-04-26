@@ -10,12 +10,12 @@
 
         <ng-container *ngTemplateOutlet="isToday ? currentTemp: forecastTemp; context: {temp: weatherDetails.temp}"></ng-container>
         <ng-template #currentTemp let-temp="temp">
-          <span class="temperature">{{temp | temperature:'k':'c'}}</span>
+          <span class="temperature">{{temp | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
         </ng-template>
         <ng-template #forecastTemp let-temp="temp">
           <span class="temperature">
-            <span class="max">{{temp.max | temperature:'k':'c'}}</span>
-            <span class="min">{{temp.min | temperature:'k':'c'}}</span>
+            <span class="max">{{temp.max | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
+            <span class="min">{{temp.min | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
           </span>
         </ng-template>
       </ion-card-title>
