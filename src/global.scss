@@ -24,3 +24,28 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.center {
+    display: flex;
+    align-items: center;
+  }
+  
+  .space-between {
+    display: flex;
+    justify-content: space-between
+  }
+  
+  .temperature {
+    font-size: 14px;
+    line-height: 22px;
+    opacity: 0.9;
+  
+    .max {
+      color: rgba(255, 211, 169, 0.9);
+    }
+    
+    .min {
+      margin-left: 8px;
+      color: rgba(180, 204, 255, 0.9);
+    }
+  }
