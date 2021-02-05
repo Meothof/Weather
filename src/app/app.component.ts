@@ -3,9 +3,11 @@ import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ModalController, Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
+import { Index } from './interfaces';
 import { IPlace } from './interfaces/place';
 import { SearchPlaceComponent } from './place/search-place/search-place.component';
+import { PlaceService } from './services/place.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +16,8 @@ import { SearchPlaceComponent } from './place/search-place/search-place.componen
 })
 export class AppComponent implements OnInit {
 
-  public places: IPlace[];
-  public selectedPlace: IPlace;
+  public places$: Observable<Index<IPlace>>;
+  public selectedId: number;
 
   constructor(
     private platform: Platform,
@@ -23,7 +25,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private router: Router,
     private modalController: ModalController,
-    private storage: Storage,
+    private placeService: PlaceService,
   ) {
     this.initializeApp();
   }
@@ -36,18 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   public async ngOnInit() {
-    await this.refreshPlaces();
-    if (this.places.length !== 0) {
-      this.selectPlace(this.places[0]);
-    }
-  }
-
-  public selectPlace(place) {
-    this.selectedPlace = place;
-    this.router.navigateByUrl(
-      'place/weather-overview',
-      { state: { place } }
-    );
+    this.places$ = this.placeService.streamSavedPlaces();
   }
 
   public async openSearch() {
@@ -56,10 +47,10 @@ export class AppComponent implements OnInit {
     });
     await modal.present();
     await modal.onWillDismiss();
-    this.refreshPlaces();
   }
 
-  private async refreshPlaces() {
-    this.places = (await this.storage.get('places') as IPlace[]) || [];
+  public selectePlace(placeId: number) {
+    this.selectedId = placeId;
+    this.router.navigate(['place/weather-overview', placeId]);
   }
 }

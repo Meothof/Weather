@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 import { NominatimService } from 'src/app/services/nominatim.service';
-import { IPlace } from 'src/app/interfaces/place';
+import { PlaceService } from 'src/app/services/place.service';
 
 @Component({
   selector: 'app-search-place',
@@ -16,7 +15,7 @@ export class SearchPlaceComponent implements OnInit {
   constructor(
     private nominatimService: NominatimService,
     private modalController: ModalController,
-    private storage: Storage,
+    private placeService: PlaceService,
     private toastController: ToastController,
   ) { }
 
@@ -25,18 +24,18 @@ export class SearchPlaceComponent implements OnInit {
   public async searchPlace(event) {
     const searchValue = event.detail.value;
     this.searchResults = await this.nominatimService.fetchLocation(searchValue);
+    console.log(this.searchResults)
   }
 
   public async savePlace(place) {
-    const places = (await this.storage.get('places') as IPlace[]) || [];
-    places.push({
+    await this.placeService.addPlace({
+      id: place.place_id,
       name: place.display_name,
       coordinates: {
         latitude: place.lat,
         longitude: place.lon,
       }
     });
-    this.storage.set('places', places);
     this.presentToast(place.display_name);
     this.close();
   }

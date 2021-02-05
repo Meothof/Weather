@@ -9,7 +9,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'weather-overview',
+    path: 'weather-overview/:id',
     component: PlaceWeatherOverviewComponent
   }
 ];

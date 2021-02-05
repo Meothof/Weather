@@ -10,15 +10,15 @@
 
           <ion-menu-toggle
             auto-hide="false"
-            *ngFor="let place of places"
+            *ngFor="let place of places$ | async | keyvalue"
           >
             <ion-item
               lines="none"
               detail="false"
-              [class.selected]="selectedPlace?.name == place.name"
-              (click)="selectPlace(place)"
+              [class.selected]="selectedId == place.key"
+              (click)="selectePlace(place.key)"
             >
-              <ion-label>{{ place.name }}</ion-label>
+              <ion-label>{{ place.value.name }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

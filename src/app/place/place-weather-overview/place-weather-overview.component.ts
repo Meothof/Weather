@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 import { IPlace } from 'src/app/interfaces/place';
 import { IOneCallApiResponse, IWeatherForecast } from 'src/app/interfaces/weather';
 import { PlaceService } from 'src/app/services/place.service';
@@ -22,6 +21,7 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
   private readonly destroyed: Subject<void>;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private weatherService: WeatherService,
     private modalController: ModalController,
@@ -31,17 +31,10 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     this.destroyed = new Subject();
   }
 
-  public ngOnInit() {
-    this.router.events.pipe(
-      filter((event: RouterEvent) => event instanceof NavigationEnd),
-      takeUntil(this.destroyed)
-    ).subscribe(() => {
-      const place = history.state.place;
-      if (place != null) {
-        this.place = place;
-        this.refresh();
-      }
-    });
+  public async ngOnInit() {
+    const placeId = this.route.snapshot.paramMap.get('id');
+    this.place = await this.placeService.fetchPlaceById(+placeId);
+    await this.refresh();
   }
 
   public ngOnDestroy(): void {
