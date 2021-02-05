@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { IPlace } from 'src/app/interfaces/place';
 import { IOneCallApiResponse, IWeatherForecast } from 'src/app/interfaces/weather';
-import { PlaceService } from 'src/app/place.service';
+import { PlaceService } from 'src/app/services/place.service';
 import { WeatherService } from '../../services/weather.service';
 import { PlaceWeatherDetailsComponent } from '../place-weather-details/place-weather-details.component';
 
