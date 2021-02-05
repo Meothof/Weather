@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
     this.selectedPlace = place;
     this.router.navigateByUrl(
       'place/weather-overview',
-      { state: place }
+      { state: { place } }
     );
   }
 

@@ -33,7 +33,11 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
       filter((event: RouterEvent) => event instanceof NavigationEnd),
       takeUntil(this.destroyed)
     ).subscribe(() => {
-      this.refresh();
+      const place = history.state.place;
+      if (place != null) {
+        this.place = place;
+        this.refresh();
+      }
     });
   }
 
@@ -42,8 +46,7 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  public async refresh(event?) {
-    this.place = history.state;
+  public async refresh(event?: any) {
     this.weather = await this.weatherService.fetchWeather(this.place.coordinates);
     if (event) {
       event.target.complete();
