@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { IPlace } from 'src/app/interfaces/place';
 import { IOneCallApiResponse, IWeatherForecast } from 'src/app/interfaces/weather';
+import { PlaceService } from 'src/app/place.service';
 import { WeatherService } from '../../services/weather.service';
 import { PlaceWeatherDetailsComponent } from '../place-weather-details/place-weather-details.component';
 
@@ -24,6 +25,8 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     private router: Router,
     private weatherService: WeatherService,
     private modalController: ModalController,
+    private actionSheetController: ActionSheetController,
+    private placeService: PlaceService,
   ) {
     this.destroyed = new Subject();
   }
@@ -63,4 +66,26 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     });
     await modal.present();
   }
+
+  public async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: this.place.name,
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          console.log('Delete clicked');
+          this.deletePlace();
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  private async deletePlace() {
+    await this.placeService.removePlace(this.place);
+    this.router.navigateByUrl('');
+  }
+
 }
