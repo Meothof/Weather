@@ -15,8 +15,7 @@
             <ion-item
               lines="none"
               detail="false"
-              [class.selected]="selectedId?.toString() === place.key"
-              (click)="selectePlace(+place.key)"
+              (click)="selectPlace(place.value.id)"
             >
               <ion-label>{{ place.value.name }}</ion-label>
             </ion-item>

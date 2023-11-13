@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar } from '@capacitor/status-bar';
 import { ModalController, Platform } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom, lastValueFrom, take, takeLast } from 'rxjs';
 import { Index } from './interfaces';
 import { IPlace } from './interfaces/place';
 import { SearchPlaceComponent } from './place/search-place/search-place.component';
@@ -16,8 +16,7 @@ import { PlaceService } from './services/place.service';
 })
 export class AppComponent {
 
-  protected places$: Observable<Index<IPlace>>;
-  protected selectedId: number | undefined;
+  protected places$: Observable<Record<number, IPlace>>;
 
   constructor(
     private platform: Platform,
@@ -27,14 +26,25 @@ export class AppComponent {
   ) {
     this.initializeApp();
     this.places$ = this.placeService.streamSavedPlaces();
+    this.loadFirstAvailablePlace();
   }
 
-  public initializeApp() {
-    this.platform.ready().then(() => {
-      StatusBar.show();
-      SplashScreen.hide();
-    });
+  public async initializeApp() {
+    // Load app
+    // await this.platform.ready()
+    // StatusBar.show();
+    // SplashScreen.hide();
+    // Open first place
   }
+
+  private async loadFirstAvailablePlace() {
+    const places = await firstValueFrom(this.places$);
+    const placesIds = Object.keys(places);
+    if (placesIds.length > 0) {
+      this.selectPlace(+placesIds[0]);
+    }
+  }
+
 
   public async openSearch() {
     const modal = await this.modalController.create({
@@ -44,8 +54,7 @@ export class AppComponent {
     await modal.onWillDismiss();
   }
 
-  public selectePlace(placeId: number) {
-    this.selectedId = placeId;
+  public selectPlace(placeId: number) {
     this.router.navigate(['place/weather-overview', placeId]);
   }
 }
