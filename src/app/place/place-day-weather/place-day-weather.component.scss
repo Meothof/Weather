@@ -1,0 +1,19 @@
+.container {
+    padding: 0.5rem;
+}
+
+.date {
+    color: var(--ion-color-step-550, #737373);
+    margin: 0px;
+    padding: 0px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.forecast-preview {
+    img {
+        width: 50px;
+        margin-right: 1rem;
+    }
+    color: var(--ion-color-step-850);
+}

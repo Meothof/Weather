@@ -1,24 +1,26 @@
-<ng-container *ngIf="weatherDetails">
-  <ion-card *ngIf="weatherDetails.weather[0]; let weatherOverview">
-    <ion-card-header>
-      <ion-card-subtitle>{{weatherDetails.dt | secondsToMilliseconds | date:'fullDate'}}</ion-card-subtitle>
-      <ion-card-title class="center space-between">
-        <span class="center">
-          <img [src]="'http://openweathermap.org/img/wn/'+ weatherOverview.icon+'.png'" />
-          <span>{{weatherOverview.description | titlecase}}</span>
-        </span>
+@if (weatherDetails) {
+<div
+  class="container"
+  *ngIf="weatherDetails.weather[0]; let weatherOverview"
+>
+  <div class="date">{{weatherDetails.dt | secondsToMilliseconds | date:'fullDate'}}</div>
+  <div class="forecast-preview  center space-between">
+    <span class="center">
+      <img [src]="'http://openweathermap.org/img/wn/'+ weatherOverview.icon+'.png'" />
+      <span>{{weatherOverview.description | titlecase}}</span>
+    </span>
 
-        <ng-container *ngTemplateOutlet="isToday ? currentTemp: forecastTemp; context: {temp: weatherDetails.temp}"></ng-container>
-        <ng-template #currentTemp let-temp="temp">
-          <span class="temperature">{{temp | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
-        </ng-template>
-        <ng-template #forecastTemp let-temp="temp">
-          <span class="temperature">
-            <span class="max">{{temp.max | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
-            <span class="min">{{temp.min | temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
-          </span>
-        </ng-template>
-      </ion-card-title>
-    </ion-card-header>
-  </ion-card>
-</ng-container>
+    @if (isToday) {
+    <span class="temperature">{{ weatherDetails.temp |
+      temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
+    } @else {
+    <span class="temperature">
+      <span class="max">{{weatherDetails.temp.max |
+        temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
+      <span class="min">{{weatherDetails.temp.min |
+        temperature:TemperatureUnits.KELVIN:TemperatureUnits.CELCIUS}}</span>
+    </span>
+    }
+  </div>
+</div>
+}
