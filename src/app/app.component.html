@@ -15,14 +15,17 @@
               [disabled]="false"
               (ionItemReorder)="reorderSavedPlaces($any($event))"
             >
-              <ion-item
-                *ngFor="let place of places; trackBy:trackPlaceById"
-                [routerLink]="['place/weather-overview', place.id]"
-                [routerLinkActive]="['selected']"
-              >
-                <ion-label>{{ place.name }}</ion-label>
-                <ion-reorder slot="end"></ion-reorder>
-              </ion-item>
+              @for (place of places; track place.id) {
+                <ion-item
+                  [routerLink]="['place/weather-overview', place.id]"
+                  [routerLinkActive]="['selected']"
+                >
+                  <ion-label>{{ place.name }}</ion-label>
+                  <ion-reorder slot="end"></ion-reorder>
+                </ion-item>
+              } @empty {
+                No saved place, add one !
+              }
             </ion-reorder-group>
           </ion-menu-toggle>
         </ion-list>

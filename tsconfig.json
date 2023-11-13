@@ -28,6 +28,9 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "_enabledBlockTypes": [ // To support angular 17 new control flow
+      "if", "switch", "for", "defer"
+    ]
   }
 }
