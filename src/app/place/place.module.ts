@@ -25,9 +25,5 @@ import { HomeComponent } from './home/home.component';
     RouterModule,
     PipesModule
   ],
-  entryComponents: [
-    PlaceWeatherDetailsComponent,
-    SearchPlaceComponent,
-  ]
 })
 export class PlaceModule { }

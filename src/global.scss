@@ -10,42 +10,17 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css";
+@import "@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
-
-.center {
-    display: flex;
-    align-items: center;
-  }
-  
-  .space-between {
-    display: flex;
-    justify-content: space-between
-  }
-  
-  .temperature {
-    font-size: 14px;
-    line-height: 22px;
-    opacity: 0.9;
-  
-    .max {
-      color: rgba(255, 211, 169, 0.9);
-    }
-    
-    .min {
-      margin-left: 8px;
-      color: rgba(180, 204, 255, 0.9);
-    }
-  }
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";

@@ -15,8 +15,8 @@ import { PlaceWeatherDetailsComponent } from '../place-weather-details/place-wea
 })
 export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
 
-  public place: IPlace;
-  public weather: IOneCallApiResponse;
+  public place?: IPlace;
+  public weather?: IOneCallApiResponse;
 
   private readonly destroyed: Subject<void>;
 
@@ -33,6 +33,9 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
 
   public async ngOnInit() {
     const placeId = this.route.snapshot.paramMap.get('id');
+    if (placeId == null) {
+      return;
+    }
     this.place = await this.placeService.fetchPlaceById(+placeId);
     await this.refresh();
   }
@@ -42,8 +45,10 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  public async refresh(event?: any) {
-    this.weather = await this.weatherService.fetchWeather(this.place.coordinates);
+  public async refresh(event?: any): Promise<void> {
+    if (this.place != null) {
+      this.weather = await this.weatherService.fetchWeather(this.place.coordinates);
+    }
     if (event) {
       event.target.complete();
     }
@@ -54,7 +59,7 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
       component: PlaceWeatherDetailsComponent,
       componentProps: {
         weatherForecast: weather,
-        placeName: this.place.name,
+        placeName: this.place?.name,
       }
     });
     await modal.present();
@@ -62,7 +67,7 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
 
   public async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
-      header: this.place.name,
+      header: this.place?.name,
       buttons: [{
         text: 'Delete',
         role: 'destructive',
@@ -77,6 +82,9 @@ export class PlaceWeatherOverviewComponent implements OnInit, OnDestroy {
   }
 
   private async deletePlace() {
+    if (this.place == null) {
+      return;
+    }
     await this.placeService.removePlace(this.place);
     this.router.navigateByUrl('');
   }

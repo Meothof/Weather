@@ -9,7 +9,7 @@ import { TemperatureUnits } from 'src/app/pipes/temperature.pipe';
 })
 export class PlaceDayWeatherComponent implements OnInit {
 
-  @Input() public weatherDetails: IWeatherDetails;
+  @Input() public weatherDetails!: IWeatherDetails;
   @Input() public isToday = false;
 
   public readonly TemperatureUnits = TemperatureUnits;

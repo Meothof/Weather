@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class NominatimService {
 
   public fetchLocation(query: string): Promise<any[]> {
     const url = `${this.nominatimeEndpoint}/search`;
-    return this.httpClient.get<any[]>(
+    return lastValueFrom(this.httpClient.get<any[]>(
       url,
       {
         params: {
@@ -20,6 +21,6 @@ export class NominatimService {
           format: 'json'
         }
       },
-    ).toPromise();
-  }
+    ));
+  };
 }

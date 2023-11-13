@@ -12,12 +12,17 @@ const PLACE_KEY = 'places';
 export class PlaceService {
 
   private readonly savedPlaces$: Subject<Index<IPlace>>;
+  private store: Storage = new Storage();
 
   constructor(private storage: Storage) {
     this.savedPlaces$ = new Subject();
-    storage.ready().then(async () => {
-      this.savedPlaces$.next(await this.fetchPlaces());
-    });
+    this.init();
+  }
+
+  private async init() {
+    this.store = await this.storage.create();
+    const savedPlaces = await this.fetchPlaces();
+    this.savedPlaces$.next(savedPlaces);
   }
 
   public streamSavedPlaces(): Observable<Index<IPlace>> {

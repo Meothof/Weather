@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@capacitor/splash-screen';
+import { StatusBar } from '@capacitor/status-bar';
 import { ModalController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Index } from './interfaces';
@@ -14,31 +14,26 @@ import { PlaceService } from './services/place.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  public places$: Observable<Index<IPlace>>;
-  public selectedId: number;
+  protected places$: Observable<Index<IPlace>>;
+  protected selectedId: number | undefined;
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private router: Router,
     private modalController: ModalController,
     private placeService: PlaceService,
   ) {
     this.initializeApp();
+    this.places$ = this.placeService.streamSavedPlaces();
   }
 
   public initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      StatusBar.show();
+      SplashScreen.hide();
     });
-  }
-
-  public async ngOnInit() {
-    this.places$ = this.placeService.streamSavedPlaces();
   }
 
   public async openSearch() {
