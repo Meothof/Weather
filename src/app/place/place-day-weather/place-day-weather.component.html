@@ -1,5 +1,8 @@
 @if (weatherDetails) {
-<div class="container" *ngIf="weatherDetails.weather[0]; let weatherOverview">
+<div
+  class="container"
+  *ngIf="weatherDetails.weather[0]; let weatherOverview"
+>
   <div class="date">{{weatherDetails.dt | secondsToMilliseconds | date:'fullDate'}}</div>
   <div class="forecast-preview  center space-between">
     <span class="center">
