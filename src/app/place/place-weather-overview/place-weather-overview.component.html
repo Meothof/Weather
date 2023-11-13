@@ -5,8 +5,14 @@
     </ion-buttons>
     <ion-title>{{ place?.name }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentActionSheet()">
-        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      <ion-button
+        color="primary"
+        (click)="presentActionSheet()"
+      >
+        <ion-icon
+          slot="icon-only"
+          name="ellipsis-vertical"
+        ></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -19,31 +25,45 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="refresh($event)"
+  >
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="weather; else loading" id="container">
-    <ion-list>
-      <ion-list-header>
-        Current weather
-      </ion-list-header>
-      <div (click)="openForecastDetails(weather.daily[0])">
-        <app-place-day-weather [weatherDetails]="weather.current" [isToday]="true"></app-place-day-weather>
+  @if (weather && place) {
+  <ion-accordion-group expand="inset">
+    <ion-accordion>
+      <ion-item slot="header">
+        <app-place-day-weather
+          [weatherDetails]="weather.current"
+          [isToday]="true"
+        ></app-place-day-weather>
+      </ion-item>
+      <div slot="content">
+        <app-place-weather-details
+          [weatherForecast]="weather.daily[0]"
+          [placeName]="place.name"
+        ></app-place-weather-details>
       </div>
-
-      <ion-list-header>
-        Forecast
-      </ion-list-header>
-      <div *ngFor="let dailyWeather of weather.daily | slice:1" (click)="openForecastDetails(dailyWeather)">
+    </ion-accordion>
+    @for (dailyWeather of weather.daily; track dailyWeather.dt) {
+    <ion-accordion>
+      <ion-item slot="header">
         <app-place-day-weather [weatherDetails]="dailyWeather"></app-place-day-weather>
+      </ion-item>
+      <div slot="content">
+        <app-place-weather-details
+          [weatherForecast]="dailyWeather"
+          [placeName]="place.name"
+        ></app-place-weather-details>
       </div>
-    </ion-list>
-
-  </div>
-</ion-content>
-
-<ng-template #loading>
+    </ion-accordion>
+    }
+  </ion-accordion-group>
+  } @else {
   <ion-spinner name="dots"></ion-spinner>
-</ng-template>
+  }
+</ion-content>
