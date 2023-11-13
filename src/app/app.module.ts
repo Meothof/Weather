@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PlaceModule } from './place/place.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { PipesModule } from './pipes/pipes.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     HttpClientModule,
     PlaceModule,
     IonicStorageModule.forRoot(),
+    PipesModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

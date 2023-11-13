@@ -49,6 +49,17 @@ export class PlaceService {
     await this.updatePlaces(places);
   }
 
+  public async updatePlace(id: number, placeUpdate: Partial<Omit<IPlace, 'id'>>) {
+    const places = await this.fetchPlaces();
+    const originalPlace = await this.fetchPlaceById(id);
+    const place: IPlace = {
+      ...originalPlace,
+      ...placeUpdate,
+    }
+    places[place.id] = place;
+    this.updatePlaces(places);
+  }
+
   private async updatePlaces(places: Index<IPlace>): Promise<void> {
     this.savedPlaces$.next(places);
     await this.storage.set(PLACE_KEY, places);
