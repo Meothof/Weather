@@ -5,24 +5,27 @@
       type="overlay"
     >
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Saved places</ion-list-header>
-
-          <ion-menu-toggle
-            auto-hide="false"
-            *ngFor="let place of places$ | async | keyvalue"
-          >
-            <ion-item
-              lines="none"
-              detail="false"
-              [class.selected]="selectedId == place.key"
-              (click)="selectePlace(place.key)"
+        <ion-list lines="none">
+          <ion-list-header>
+            <ion-label>Saved places</ion-label>
+            <ion-button (click)="openSearch()">+ Add place</ion-button>
+          </ion-list-header>
+          <ion-menu-toggle [autoHide]="false">
+            <ion-reorder-group
+              [disabled]="false"
+              (ionItemReorder)="reorderSavedPlaces($any($event))"
             >
-              <ion-label>{{ place.value.name }}</ion-label>
-            </ion-item>
+              <ion-item
+                *ngFor="let place of places; trackBy:trackPlaceById"
+                [routerLink]="['place/weather-overview', place.id]"
+                [routerLinkActive]="['selected']"
+              >
+                <ion-label>{{ place.name }}</ion-label>
+                <ion-reorder slot="end"></ion-reorder>
+              </ion-item>
+            </ion-reorder-group>
           </ion-menu-toggle>
         </ion-list>
-        <ion-button (click)="openSearch()">Add place</ion-button>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

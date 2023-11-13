@@ -30,7 +30,7 @@ export interface ITemperatureDetails {
   max: number;
   night: number;
   eve: number;
-  morn; number;
+  morn: number;
 }
 
 export interface IWeatherForecast extends IWeatherDetails {

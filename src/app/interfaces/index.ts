@@ -1,3 +1,3 @@
 export interface Index<T = any> {
-    [key: string]: T;
+    [key: string | number | symbol]: T;
 }

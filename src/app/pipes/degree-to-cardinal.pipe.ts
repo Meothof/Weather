@@ -41,6 +41,8 @@ export class DegreeToCardinalPipe implements PipeTransform {
     if (value >= 292.5 && value < 337.5) {
       return Cardinals.NorthWest;
     }
+
+    throw Error(`Invalid degree value`);
   }
 
 }

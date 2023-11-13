@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
+import { IPlace } from 'src/app/interfaces/place';
 import { NominatimService } from 'src/app/services/nominatim.service';
 import { PlaceService } from 'src/app/services/place.service';
 
@@ -10,7 +11,7 @@ import { PlaceService } from 'src/app/services/place.service';
 })
 export class SearchPlaceComponent implements OnInit {
 
-  public searchResults: any[];
+  public searchResults?: any[];
 
   constructor(
     private nominatimService: NominatimService,
@@ -21,13 +22,13 @@ export class SearchPlaceComponent implements OnInit {
 
   ngOnInit() { }
 
-  public async searchPlace(event) {
+  public async searchPlace(event: any) {
     const searchValue = event.detail.value;
     this.searchResults = await this.nominatimService.fetchLocation(searchValue);
     console.log(this.searchResults)
   }
 
-  public async savePlace(place) {
+  public async savePlace(place: any) {
     await this.placeService.addPlace({
       id: place.place_id,
       name: place.display_name,
@@ -40,7 +41,7 @@ export class SearchPlaceComponent implements OnInit {
     this.close();
   }
 
-  private async presentToast(placeName) {
+  private async presentToast(placeName: string) {
     const toast = await this.toastController.create({
       message: `${placeName} saved`,
       duration: 2000

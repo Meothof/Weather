@@ -15,9 +15,13 @@ export class PlaceService {
 
   constructor(private storage: Storage) {
     this.savedPlaces$ = new Subject();
-    storage.ready().then(async () => {
-      this.savedPlaces$.next(await this.fetchPlaces());
-    });
+    this.init();
+  }
+
+  private async init() {
+    await this.storage.create();
+    const savedPlaces = await this.fetchPlaces();
+    this.savedPlaces$.next(savedPlaces);
   }
 
   public streamSavedPlaces(): Observable<Index<IPlace>> {
@@ -43,6 +47,17 @@ export class PlaceService {
     const places = await this.fetchPlaces();
     delete places[place.id];
     await this.updatePlaces(places);
+  }
+
+  public async updatePlace(id: number, placeUpdate: Partial<Omit<IPlace, 'id'>>) {
+    const places = await this.fetchPlaces();
+    const originalPlace = await this.fetchPlaceById(id);
+    const place: IPlace = {
+      ...originalPlace,
+      ...placeUpdate,
+    }
+    places[place.id] = place;
+    this.updatePlaces(places);
   }
 
   private async updatePlaces(places: Index<IPlace>): Promise<void> {

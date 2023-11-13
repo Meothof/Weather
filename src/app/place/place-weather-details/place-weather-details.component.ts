@@ -10,8 +10,10 @@ import { TemperatureUnits } from 'src/app/pipes/temperature.pipe';
 })
 export class PlaceWeatherDetailsComponent implements OnInit {
 
-  @Input() public weatherForecast: IWeatherForecast;
-  @Input() public placeName: string;
+  @Input()
+  public weatherForecast!: IWeatherForecast;
+  @Input()
+  public placeName!: string;
 
   public readonly TemperatureUnits = TemperatureUnits;
 

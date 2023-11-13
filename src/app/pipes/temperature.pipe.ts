@@ -12,7 +12,7 @@ export class TemperaturePipe implements PipeTransform {
 
   transform(temperature: number, inputUnit: TemperatureUnits, outputUnit: TemperatureUnits): any {
     if (outputUnit === TemperatureUnits.CELCIUS) {
-      let celciusTemp: number;
+      let celciusTemp = temperature;
       if (inputUnit === TemperatureUnits.KELVIN) {
         celciusTemp = this.kelvinToCelius(temperature);
       }
