@@ -5,23 +5,25 @@
       type="overlay"
     >
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Saved places</ion-list-header>
+        <ion-list lines="none">
+          <ion-list-header>
+            <ion-label>Saved places</ion-label>
+            <ion-button (click)="openSearch()">+ Add place</ion-button>
+          </ion-list-header>
 
           <ion-menu-toggle
             auto-hide="false"
             *ngFor="let place of places$ | async | keyvalue"
           >
             <ion-item
-              lines="none"
-              detail="false"
-              (click)="selectPlace(place.value.id)"
+              [routerLink]="['place/weather-overview', place.key]"
+              [routerLinkActive]="['selected']"
             >
               <ion-label>{{ place.value.name }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-        <ion-button (click)="openSearch()">Add place</ion-button>
+
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

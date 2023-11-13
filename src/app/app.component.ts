@@ -4,7 +4,6 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar } from '@capacitor/status-bar';
 import { ModalController, Platform } from '@ionic/angular';
 import { Observable, firstValueFrom, lastValueFrom, take, takeLast } from 'rxjs';
-import { Index } from './interfaces';
 import { IPlace } from './interfaces/place';
 import { SearchPlaceComponent } from './place/search-place/search-place.component';
 import { PlaceService } from './services/place.service';
@@ -41,7 +40,7 @@ export class AppComponent {
     const places = await firstValueFrom(this.places$);
     const placesIds = Object.keys(places);
     if (placesIds.length > 0) {
-      this.selectPlace(+placesIds[0]);
+      this.router.navigate(['place/weather-overview', placesIds[0]]);
     }
   }
 
@@ -54,7 +53,4 @@ export class AppComponent {
     await modal.onWillDismiss();
   }
 
-  public selectPlace(placeId: number) {
-    this.router.navigate(['place/weather-overview', placeId]);
-  }
 }
